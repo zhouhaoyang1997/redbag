@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.UUID;
 
-/**
- * Created by jiangyunxiong on 2018/5/18.
- */
 @Controller
 public class DemoController {
 
