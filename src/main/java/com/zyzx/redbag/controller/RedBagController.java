@@ -2,6 +2,7 @@ package com.zyzx.redbag.controller;
 
 import com.zyzx.redbag.common.Const;
 import com.zyzx.redbag.entry.RedPacket;
+import com.zyzx.redbag.rabbitmq.MQConfig;
 import com.zyzx.redbag.rabbitmq.MQSender;
 import com.zyzx.redbag.redis.RedisService;
 import com.zyzx.redbag.util.JsonUtil;
@@ -29,7 +30,7 @@ public class RedBagController {
         String uuid =redPacket.getRedPacketId();
         redisService.set(Const.REDBAGKEY,redPacket);
         //放进MQ
-        sender.send(redPacket);
+        sender.send(redPacket, MQConfig.REDBAG_TOPIC);
         // code
         //
         return uuid;

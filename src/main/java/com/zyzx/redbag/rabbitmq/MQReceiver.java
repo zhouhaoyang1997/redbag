@@ -25,7 +25,6 @@ public class MQReceiver {
     public void receiveRedBag(String message) {
         System.out.println(" topic  queue1 message:" + message);
         RedPacket redPacket = RedisService.stringToBean(message, RedPacket.class);
-
     }
 
 

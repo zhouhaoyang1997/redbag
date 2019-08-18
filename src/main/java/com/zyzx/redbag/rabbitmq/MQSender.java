@@ -19,9 +19,9 @@ public class MQSender {
     @Autowired
     AmqpTemplate amqpTemplate;
 
-    public void send(Object message){
+    public void send(Object message,String topic){
         String msg = RedisService.beanToString(message);
-        amqpTemplate.convertAndSend(MQConfig.REDBAG_TOPIC, msg);
+        amqpTemplate.convertAndSend(topic, msg);
     }
 
 
