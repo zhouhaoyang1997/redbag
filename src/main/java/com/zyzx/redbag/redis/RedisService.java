@@ -16,22 +16,33 @@ public class RedisService {
     JedisPool jedisPool;
 
     /**
+     * 从redis连接池获取redis数量
+     */
+    public Long getLen( String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            Long len = jedis.llen(key);
+            return len;
+        } finally {
+            returnToPool(jedis);
+        }
+
+    }
+    /**
      * 从redis连接池获取redis实例
      */
-//    public <T> T get(KeyPrefix prefix, String key, Class<T> clazz) {
-//        Jedis jedis = null;
-//        try {
-//            jedis = jedisPool.getResource();
-//            //对key增加前缀，即可用于分类，也避免key重复
-//            String realKey = prefix.getPrefix() + key;
-//            String str = jedis.get(realKey);
-//            T t = stringToBean(str, clazz);
-//            return t;
-//        } finally {
-//            returnToPool(jedis);
-//        }
-//
-//    }
+    public <T> T  getBeanByIndex( String key,int index,  Class<T> clazz) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String str = jedis.lindex(key,index);
+            return stringToBean(str, clazz);
+        } finally {
+            returnToPool(jedis);
+        }
+
+    }
 
     /**
      * 存储对象
@@ -41,7 +52,6 @@ public class RedisService {
         try {
             jedis = jedisPool.getResource();
             String str = beanToString(value);
-//            System.out.println(str);
             if (str == null || str.length() <= 0) {
                 return false;
             }
@@ -52,7 +62,20 @@ public class RedisService {
         }
 
     }
+    /**
+     * 存储对象
+     */
+    public <T> long orderAdd(String key, T value) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String str = beanToString(value);
+            return jedis.lpush(key,str);
+        } finally {
+            returnToPool(jedis);
+        }
 
+    }
     /**
      * 删除
 //     */

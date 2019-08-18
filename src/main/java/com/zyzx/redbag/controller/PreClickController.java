@@ -3,17 +3,15 @@ package com.zyzx.redbag.controller;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.service.PreClickService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class PreClickController {
     @Autowired
     private PreClickService preClickService;
 
-    @RequestMapping("/preClick")
-    @ResponseBody
+    @PostMapping ("/preClick")
     public  String preClick(UserClick userClick){
 
     String result=preClickService.preClick(userClick);

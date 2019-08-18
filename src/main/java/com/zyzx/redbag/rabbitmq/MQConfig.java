@@ -13,6 +13,7 @@ public class MQConfig {
 
     public static final String REDBAG_TOPIC = "redbagtopic";
     public static final String PRECLICK_TOPIC = "preClick";
+    public static final String RANK_TOPIC = "rank";
 //
 //    @Bean
 //    public Queue preClickTopic() {
