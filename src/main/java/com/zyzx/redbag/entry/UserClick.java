@@ -10,6 +10,6 @@ import lombok.Data;
 public class UserClick {
     int userClickId;
     int userId;
-    int redpacketId;
+    String redpacketId;
     String completeTime;
 }

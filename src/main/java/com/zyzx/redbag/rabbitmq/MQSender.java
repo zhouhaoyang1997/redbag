@@ -15,6 +15,7 @@ public class MQSender {
 
     public void send(Object message,String topic){
         String msg = RedisService.beanToString(message);
+        System.out.println(topic);
         amqpTemplate.convertAndSend(topic, msg);
     }
 

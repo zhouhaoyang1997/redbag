@@ -12,9 +12,14 @@ public class MQConfig {
 
 
     public static final String REDBAG_TOPIC = "redbagtopic";
-
-
-
+    public static final String PRECLICK_TOPIC = "preClick";
+//
+//    @Bean
+//    public Queue preClickTopic() {
+//        return new Queue(PRECLICK_TOPIC, true);
+//    }
+//
+//
 //    @Bean
 //    public Queue redBagTopic() {
 //        return new Queue(REDBAG_TOPIC, true);
