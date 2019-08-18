@@ -2,7 +2,9 @@ package com.zyzx.redbag.rabbitmq;
 
 
 import com.zyzx.redbag.entry.RedPacket;
+import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.redis.RedisService;
+import com.zyzx.redbag.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,6 +27,13 @@ public class MQReceiver {
     public void receiveRedBag(String message) {
         System.out.println(" topic  queue1 message:" + message);
         RedPacket redPacket = RedisService.stringToBean(message, RedPacket.class);
+    }
+
+
+    @RabbitListener(queues = "preClick")
+    public void receivePreClick(String message) {
+        System.out.println(" topic  queue1 message:" + message);
+        UserClick userClick = JsonUtil.string2Obj(message,UserClick.class);
     }
 
 
