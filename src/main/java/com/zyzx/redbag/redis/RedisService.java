@@ -36,22 +36,16 @@ public class RedisService {
     /**
      * 存储对象
      */
-    public <T> Boolean set(String key, double num,String value) {
+    public <T> Boolean set(String key, T value) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-//            String str = beanToString(value);
-//            if (str == null || str.length() <= 0) {
-//                return false;
-//            }
-//            String realKey =  key;
-//            int seconds = 0;//获取过期时间
-//            if (seconds <= 0) {
-                jedis.zadd(key, num, value);
-//            } else {
-//                jedis.setex(realKey, seconds, str);
-//            }
-
+            String str = beanToString(value);
+//            System.out.println(str);
+            if (str == null || str.length() <= 0) {
+                return false;
+            }
+            jedis.sadd(key,str);
             return true;
         } finally {
             returnToPool(jedis);

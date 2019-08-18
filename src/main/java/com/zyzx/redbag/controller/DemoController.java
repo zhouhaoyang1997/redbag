@@ -1,9 +1,8 @@
 package com.zyzx.redbag.controller;
 
 
-import com.zyzx.redbag.entry.Redbag;
+import com.zyzx.redbag.entry.RedPacket;
 import com.zyzx.redbag.redis.RedisService;
-import com.zyzx.redbag.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +42,6 @@ public class DemoController {
 //        return "Hello World";
 //    }
 //
-    @RequestMapping("/hello")
-    @ResponseBody
-    public Result<String> hello() {
-        return Result.success("hello, Jesper");
-    }
-//
 //    @RequestMapping("/Error")
 //    @ResponseBody
 //    public Result<String> error() {
@@ -68,17 +61,17 @@ public class DemoController {
 //        return Result.success(user);
 //    }
 //
-    @RequestMapping("/redis/getRedBag")
-    @ResponseBody
-    public String redisSet() {
-        Redbag redbag = new Redbag();
-        redbag.setUUID(UUID.randomUUID().toString());
-        String uuid =redbag.getUUID();
-        int i =1;
-        Boolean b1 = redisService.set("rl",i++,uuid);
-        System.out.println(1+"  :  "+uuid);
-        return "ok";
-    }
+//    @RequestMapping("/redis/getRedBag")
+//    @ResponseBody
+//    public String redisSet() {
+//        Redpacket redbag = new Redpacket();
+//        redbag.setUUID(UUID.randomUUID().toString());
+//        String uuid =redbag.getUUID();
+//        int i =1;
+//        Boolean b1 = redisService.set("rl",i++,uuid);
+//        System.out.println(1+"  :  "+uuid);
+//        return "ok";
+//    }
 //
 //    @RequestMapping("/db/doubleInsert")
 //    @ResponseBody

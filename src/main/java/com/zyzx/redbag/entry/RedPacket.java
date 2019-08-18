@@ -7,8 +7,8 @@ import lombok.Data;
  * @create 2019-08-17 19:10
  **/
 @Data
-public class Redbag {
-    String UUID;
-//    String createTime;
-//    String
+public class RedPacket{
+    String redPacketId;
+    int isTake;
+    int userId;
 }
