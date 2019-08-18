@@ -3,6 +3,7 @@ package com.zyzx.redbag.rabbitmq;
 
 import com.zyzx.redbag.entry.RedPacket;
 import com.zyzx.redbag.entry.UserClick;
+import com.zyzx.redbag.mapper.PreClickMapper;
 import com.zyzx.redbag.redis.RedisService;
 import com.zyzx.redbag.service.RedBagService;
 import com.zyzx.redbag.util.JsonUtil;
@@ -22,6 +23,11 @@ public class MQReceiver {
     @Autowired
     RedBagService redBagService;
 
+    @Autowired
+    PreClickMapper preClickMapper;
+
+
+
 
     @RabbitListener(queues = MQConfig.REDBAG_TOPIC)
     public void receiveRedBag(String message) {
@@ -32,7 +38,7 @@ public class MQReceiver {
     public void receivePreClick(String message) {
         System.out.println(" topic  queue1 message:" + message);
         UserClick userClick = JsonUtil.string2Obj(message,UserClick.class);
-
+        preClickMapper.insertPreclick(userClick);
     }
 
 }
