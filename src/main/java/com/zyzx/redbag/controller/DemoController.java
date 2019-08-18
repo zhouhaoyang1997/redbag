@@ -16,10 +16,18 @@ public class DemoController {
     @Autowired
     RedisService redisService;
 
-//
-//    @Autowired
-//    MQSender sender;
 
+//    @RequestMapping("/redis/getRedBag")
+//    @ResponseBody
+//    public String redisSet() {
+//        RedPacket redbag = new RedPacket();
+//        redbag.setRedPacketId(UUID.randomUUID().toString());
+//        String uuid =redbag.getRedPacketId();
+//        int i =1;
+//        Boolean b1 = redisService.set("rl",i++,uuid);
+//        System.out.println(1+"  :  "+uuid);
+//        return "ok";
+//    }
 //    @RequestMapping("/mq")
 //    @ResponseBody
 //    public Result<String> mq() {
