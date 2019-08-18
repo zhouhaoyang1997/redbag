@@ -29,10 +29,7 @@ public class RedBagController {
         redPacket.setRedPacketId(UUID.randomUUID().toString());
         String uuid =redPacket.getRedPacketId();
         redisService.set(Const.REDBAGKEY,redPacket);
-        //放进MQ
-        sender.send(redPacket, MQConfig.REDBAG_TOPIC);
-        // code
-        //
+        sender.send(uuid, MQConfig.REDBAG_TOPIC);
         return uuid;
     }
 }
