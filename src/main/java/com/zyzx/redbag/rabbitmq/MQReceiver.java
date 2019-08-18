@@ -23,7 +23,7 @@ public class MQReceiver {
     @Autowired
     RedBagService redBagService;
     @Autowired
-    RankService rankService
+    RankService rankService;
 
     @RabbitListener(queues = MQConfig.REDBAG_TOPIC)
     public void receiveRedBag(String message) {
