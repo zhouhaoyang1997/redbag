@@ -5,14 +5,13 @@ import com.zyzx.redbag.entry.Ranking;
 import com.zyzx.redbag.entry.Result;
 import com.zyzx.redbag.entry.User;
 import com.zyzx.redbag.entry.UserClick;
-import com.zyzx.redbag.rabbitmq.MQConfig;
-import com.zyzx.redbag.rabbitmq.MQSender;
+
 import com.zyzx.redbag.redis.RedisService;
+import com.zyzx.redbag.service.PreClickService;
 import com.zyzx.redbag.service.RankService;
 import com.zyzx.redbag.service.UserService;
 import com.zyzx.redbag.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,14 +27,18 @@ import java.util.Date;
 public class ClickRedBagController {
     @Autowired
     RedisService redisService;
-    @Autowired
-    MQSender sender;
+
     @Autowired
     UserService userService;
     @Autowired
     RankService rankService;
+    @Autowired
+    private PreClickService preClickService;
     @RequestMapping("/clickRedBag")
     public Result clickRedBag(UserClick userClick, HttpSession session){
+        if(Const.ISOVER){
+            return new Result("400","gameover");
+        }
         if(!UserUtil.checkUser(session)){
             return new Result("-1","用户未登录");
         }
@@ -44,7 +47,7 @@ public class ClickRedBagController {
         userClick.setCompleteTime(data);
         User user= (User) session.getAttribute(Const.USER);
         long len = redisService.getLen(String.valueOf(userClick.getUserId()));
-
+        System.out.println("产股======="+len);
         if(len == Const.PRECLICK){
             userService.updateUserIsPartake(userClick.getUserId());
             //实例话rank
@@ -55,8 +58,10 @@ public class ClickRedBagController {
             ranking.setUserTel(user.getUserTel());
             //获取插入时index
               long index = redisService.orderAdd(Const.RANKLIST,ranking);
+              ranking.setRankingId((int) index);
               //推送
-              sender.send(userClick,MQConfig.PRECLICK_TOPIC);
+              preClickService.savePreClick(userClick);
+              preClickService.preClick(userClick);
               //
               if(index<=Const.ALLREDBAGNUM){
                   if(index<=Const.FIRSTREWARD){
@@ -72,9 +77,13 @@ public class ClickRedBagController {
                   }
                   redisService.orderAdd(Const.REWARD,ranking);
                   rankService.InsertRanking(ranking);
-                  return new Result("0",Const.SUCCESS);
+                  return new Result("0",Const.SUCCESS,ranking);
               }
+              //更改全局变量
+              Const.ISOVER = true;
             return new Result("-1","没有中奖");
+        }else if(len<Const.PRECLICK){
+            return preClickService.preClick(userClick);
         }else {
             return new Result("-1","违法操作");
         }

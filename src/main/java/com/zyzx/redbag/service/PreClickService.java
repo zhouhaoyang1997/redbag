@@ -1,11 +1,10 @@
 package com.zyzx.redbag.service;
 
-import com.zyzx.redbag.common.Const;
+
 import com.zyzx.redbag.entry.Result;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.mapper.PreClickMapper;
-import com.zyzx.redbag.rabbitmq.MQConfig;
-import com.zyzx.redbag.rabbitmq.MQSender;
+
 import com.zyzx.redbag.redis.RedisService;
 import com.zyzx.redbag.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ public class PreClickService {
     JedisPool jedisPool;
     @Autowired
     RedisService redisService;
-    @Autowired
-    MQSender sender;
 
     @Autowired
     PreClickMapper mapper;
@@ -32,9 +29,9 @@ public class PreClickService {
         if (userClick==null){
             return  new Result("-1","param is null");
         }
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS");
-        String data=df.format(new Date());
-        userClick.setCompleteTime(data);
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS");
+//        String data=df.format(new Date());
+//        userClick.setCompleteTime(data);
         Jedis jedis=jedisPool.getResource();
 
         jedis.rpush(String.valueOf(userClick.getUserId()), JsonUtil.obj2String(userClick));

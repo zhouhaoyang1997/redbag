@@ -18,8 +18,11 @@ public class Const {
     public static long PRECLICK= 7;
     //第几次中奖
     public static long CLICKREDBAGNUM= 8;
+    public static int FIRSTREWARD= 10;
+    public static int SECONDREWARD= 10;
+    public static int THIRDREWARD= 10;
     //所有中奖数量
-    public static int ALLREDBAGNUM= 30;
+    public static int ALLREDBAGNUM= FIRSTREWARD+SECONDREWARD+THIRDREWARD;
     //非法请求
     public static String ERROR= "error";
     //key
@@ -29,11 +32,9 @@ public class Const {
     //结束时间
     public static String ENDTIME= "2020-08-19 10:50:00";
     //123等奖
-    public static int FIRSTREWARD= 10;
-    public static int SECONDREWARD= 10;
-    public static int THIRDREWARD= 10;
+
 
     public static String REWARD="reward";
-
+    public static boolean ISOVER= false;
 
 }

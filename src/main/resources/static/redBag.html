@@ -48,6 +48,13 @@
 <script type="text/javascript" src="./js/ajax.js"></script>
 <script type="text/javascript" src="./js/jquery.cookie.js" ></script>
 <script>
+    // 防止用户查看完排行榜再次进入红包页面
+    $(document).ready(function(){
+        console.log($.cookie('tel'),'cookie')
+        if($.cookie('tel')===''){
+            window.location.href = './index.html'
+        }
+    })
     console.log($.cookie('username'))
     // 倒计时
     var countDown = function(times){
@@ -65,18 +72,22 @@
            },500)
         }
     }
-    countDown(10);
-    // 在7s内随机数发送ajax 并发量错开 减少服务器压力
-    // ajax('http://wh.xhd.cn/api/content/list.jspx',{channelIds: 1}).then(res=>{
-    //     console.log(res)
-    // })
-    let random = (Math.random()*7).toFixed(3)
+    countDown(5);
+    var redBagId = []
+    // 在4s内随机数发送ajax 并发量错开 减少服务器压力
+    let random = (Math.random()*4).toFixed(3)
     setTimeout(()=>{
-    //     ajax('http://wh.xhd.cn/api/content/list.jspx',{channelIds: 1}).then(res=>{
-    //     console.log(res)
-    // })
+        ajax('http://221.181.129.89:20111/hackathon132_21024/getRedBagList').then(res=>{
+            if(res.rtnCode === '0'){
+            // 根据返回的红包id数量
+                redBagId = res.data
+            }
+            console.log(res)
+        },(err)=>{
+            alert(err)
+        })
     },random*1000)
-    // 倒计时10s开始游戏
+    // 倒计时5s开始游戏
     setTimeout((function(){
         var win=parseInt($(".money-warpper").width()-60);
         var height=$(document).height();
@@ -116,37 +127,48 @@
                 $('.redBagNum span').html(clickNum)
                 // 可以获取到this.id
                 this.remove();
-                if(clickNum === 8){
-                    $(".sen h3").html(`您已完成抢8个红包的任务！游戏结束`)
-                    // 完成8个之后不让用户点击
-                    $('.toastWarp').show()
-                    $(".toast").show();
-                    // ajax 去处理第八次点击
-                    console.log('第八次')
-                    // ajax(url,parms,type='POST').then((res)=>{
-                    // 	console.log(res)
-                    // },(err)=>{})
-                }else{
-                    console.log('前七次')
-                    // ajax 处理前7次点击
-                    // ajax(url,parms,type='POST').then((res)=>{
-                    // 	console.log(res)
-                    // },(err)=>{})
-                }
+                // if(clickNum === 8){
+                //     $(".sen h3").html(`您已完成抢8个红包的任务！游戏结束(赶紧点击查看排行榜看自己的排名吧)`)
+                //     // 完成8个之后不让用户点击
+                //     $('.toastWarp').show()
+                //     $(".toast").show();
+                //     // ajax 去处理第八次点击
+                //     console.log('第八次')
+                //     ajax('http://221.181.129.89:20111/hackathon132_21024/clickRedBag',
+                //     {userId: $.cookie('userId'),
+                //     redpacketId:id},type='POST')
+                //     .then((res)=>{
+                //     },(err)=>{
+                //         alert(err)
+                //     })
+                // }else{
+                    ajax('http://221.181.129.89:20111/hackathon132_21024/clickRedBag',
+                    {userId: $.cookie('userId'),
+                    redpacketId:id},type='POST')
+                    .then((res)=>{
+                        console.log(res)
+                        if(res.data){
+                            $(".sen h3").html(`您已完成抢8个红包的任务！获得${res.data.winningLevel}等奖`)
+                            $('.toastWarp').show()
+                            $(".toast").show();   
+                        }
+                    },(err)=>{
+                        alert(err)
+                    })
+                // }
             })
         }
-        // 根据返回的红包id数量
-        let arr = new Array(30)
         let i= 0;
         let timer = setInterval(()=>{
-            add(arr[i])
+            add(redBagId[i])
             i++
-            if(i===50){
+            if(i===30){
                 console.log('清除time')
                 clearInterval(timer)
                 var lunxun = setInterval(function(){
                     if($('.money-warpper').children('div').length==1&& clickNum<8){
-                        $(".sen h3").html(`很遗憾您没有完成抢完8个红包的任务,下次活动继续努力哦`)
+                        $('.sen>img').attr('src','images/yh.png')
+                        $(".sen h3").html(`您没有完成抢完8个红包的任务,下次活动继续努力哦`)
                         // 完成8个之后不让用户点击
                         $('.toastWarp').show()
                         $(".toast").show(); 
@@ -158,9 +180,9 @@
         // 完成游戏点击确定事件
         $(".toast-btn").click(function(){
             $(".toast").hide();
-            window.location.href = './zhongjiang.html'
+            window.location.href = './rank.html'
             // clearTimeout(clear,500);    
         })
-    }),10000)
+    }),5000)
 </script>
 </html>

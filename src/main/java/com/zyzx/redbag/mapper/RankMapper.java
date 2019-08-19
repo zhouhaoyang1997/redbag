@@ -14,7 +14,7 @@ import java.util.List;
  **/
 @Mapper
 public interface RankMapper {
-    @Insert("insert into ranking (Userid,completeTime,UserClickid,WinningLevel) value(#{ranking.userId},#{ranking.completeTime},#{ranking.userClickId},#{ranking.winningLevel})")
+    @Insert("insert into ranking (Userid,completeTime,UserClickid,WinningLevel,Rankingid) value(#{userId},#{completeTime},#{userClickId},#{winningLevel},#{rankingId})")
     public  void insertRanking(Ranking ranking);
 
     @Select("SELECT *\n" +

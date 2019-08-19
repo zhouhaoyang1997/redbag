@@ -15,13 +15,13 @@ import javax.servlet.http.HttpSession;
 public class PreClickController {
     @Autowired
     private PreClickService preClickService;
-
-    @PostMapping ("/preClick")
-    public  Result<String> preClick(UserClick userClick, HttpSession session){
-        if(!UserUtil.checkUser(session)){
-            return new Result("-1","用户未登录");
-        }
-    Result result=preClickService.preClick(userClick);
-        return result;
-    }
+//
+//    @PostMapping ("/preClick")
+//    public  Result<String> preClick(UserClick userClick, HttpSession session){
+////        if(!UserUtil.checkUser(session)){
+////            return new Result("-1","用户未登录");
+////        }
+//    Result result=preClickService.preClick(userClick);
+//        return result;
+//    }
 }

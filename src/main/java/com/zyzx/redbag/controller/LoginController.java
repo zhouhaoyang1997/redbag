@@ -26,6 +26,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public Result login(String tel, HttpSession session){
+        System.out.println(tel);
         Date begintime = DateTimeUtil.strToDate(Const.BEGINTIME);
         Date endtime = DateTimeUtil.strToDate(Const.ENDTIME);
         Date nowtime = new Date();
@@ -40,7 +41,9 @@ public class LoginController {
                 session.setAttribute(Const.USER,user);
                 return new Result("0",Const.SUCCESS,user);
             }else {
-                userService.insertUser(tel);
+                if(userService.checkUser(tel)==null){
+                    userService.insertUser(tel);
+                }
                 User user1 = userService.checkUser(tel);
                 session.setAttribute(Const.USER,user1);
                 return new Result("0",Const.SUCCESS,user1);

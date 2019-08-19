@@ -13,7 +13,7 @@
 body {
   padding: 0;
   margin: 0;
-  background-color:red;
+  background-color:#b11834;
 }
 
 h1 {
@@ -30,13 +30,13 @@ ul.menu {
   width: 400px;
   margin: 20px auto;
   font-family: 'Century Gothic';
-  box-shadow: 0px 0px 25px #00000070;
+  box-shadow: 0px 0px 25px #EEEE11;
   clear: both;
   display: table;
 }
 ul.menu .list {
   font-size: 14px;
-  border-bottom: 1px solid #324252;
+  border-bottom: 1px solid #ff3d45;
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -72,9 +72,9 @@ ul.menu .list a {
   box-sizing: border-box;
 }
 ul.menu .list a:hover {
-  background-color: #FF6600;
+  background-color: #ff3d45;
   transition: 300ms all;
-  color: #09fbd2;
+  color: #eebe42;
 }
 ul.menu .list .items {
   height: 0px;
@@ -84,8 +84,8 @@ ul.menu .list .items a {
   padding: 17px;
 }
 ul.menu .list .items a:hover {
-  background-color: #3f5d79;
-  color: #fff;
+  background-color: #ff3d45;
+  color: #eebe42;
   transition: 300ms all;
 }
 ul.menu .list:last-child {
@@ -111,7 +111,7 @@ ul.menu .active:before {
 }
 ul.menu .active > .items {
   display: block;
-  background:#FF6600;
+  background:#ff3d45;
   padding: 0px;
   height: auto;
   color: #fff;
@@ -123,7 +123,7 @@ ul.menu .active > .items {
 }
 ul.menu .active > .items li {
   padding: 0px;
-  border-bottom: 1px solid #324252;
+  border-bottom: 1px solid #000;
   list-style: none;
 }
 ul.menu .active > .items li:last-child {
@@ -131,7 +131,7 @@ ul.menu .active > .items li:last-child {
   padding-bottom: 0px;
 }
 ul.menu .active > .items .active > .items {
-  background-color: #2f4b67;
+  background-color:#ff3d45;
 }
 ul.menu .active > a {
   color: #46efa4;
@@ -157,23 +157,24 @@ ul.menu .active .list a {
           </ul>
        </li>
        <li class="list"><a href="javascript:;">二等奖</a> 
-          <ul class="items">
-             <li> <a href="javascript:;" > 159****6666 </a></li>
-             <li> <a href="javascript:;" > 159****7777 </a></li>
-             <li> <a href="javascript:;" > 159****8888 </a></li>
+          <ul class="items" id="no2">
           </ul>
        </li>
        <li class="list"><a href="javascript:;">三等奖</a> 
-          <ul class="items">
-             <li> <a href="javascript:;" > Item 3-1 </a></li>
+          <ul class="items" id="no3">
+             <!-- <li> <a href="javascript:;" > Item 3-1 </a></li>
              <li> <a href="javascript:;" > Item 3-2 </a></li>
-             <li> <a href="javascript:;" > Item 3-2 </a></li>
+             <li> <a href="javascript:;" > Item 3-2 </a></li> -->
           </ul>
        </li>
     </ul>
 </body>
 <script src="./js/jquery-2.1.1.min.js"></script>
+<script src="./js/ajax.js"></script>
+<script src="./js/jquery.cookie.js" type="text/javascript"></script>
 <script>
+    // 清除cookie
+    $.cookie('tel','')
     var list = document.querySelectorAll('.list');
     
     function accordion(e) {
@@ -195,9 +196,27 @@ ul.menu .active .list a {
     for (i = 0; i < list.length; i++) {
         list[i].addEventListener('click', accordion);
     }
-
+    ajax('http://221.181.129.89:20111/hackathon132_21024/getRank',type='POST').then((res)=>{
+			if(res.rtnCode === '0'){
+        // res.data.map((data)=>{console.log(data.winningLevel)})
+        res.data.map((data)=>{
+          switch(data.winningLevel){
+            case 1: $('#no1').append("<li> <a href='javascript:;' > "+data.userTel +" </a></li>");
+                    break;
+            case 2: $('#no2').append("<li> <a href='javascript:;' > "+data.userTel +" </a></li>");
+                    break;
+            case 3: $('#no3').append("<li> <a href='javascript:;' > "+data.userTel +" </a></li>");
+                    break;        
+          }
+        })
+			}else{
+				alert(res.rtnMsg)
+			}
+		},(err)=>{
+			alert(res.rtnMsg)
+		})
     // var no1 = document.getElementById('no1')
-    $('#no1').append("<li> <a href='javascript:;' > Item 2-1 </a></li>")
+    // $('#no1').append("<li> <a href='javascript:;' > Item 2-1 </a></li>")
   </script>
     
 </html>

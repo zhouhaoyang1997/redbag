@@ -25,7 +25,7 @@ public class RankService {
     RankMapper rankMapper;
     public Result<List> getRank(){
         Jedis jedis =jedisPool.getResource();
-        List<String> strList=jedis.lrange(Const.RANKLIST,0,Const.ALLREDBAGNUM);
+        List<String> strList=jedis.lrange(Const.REWARD,0,Const.ALLREDBAGNUM);
         List<Ranking> rankingList1=new ArrayList<Ranking>();
         if (!strList.isEmpty()){
             for (String rstr:strList) {
