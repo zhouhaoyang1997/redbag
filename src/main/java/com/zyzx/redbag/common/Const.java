@@ -28,6 +28,12 @@ public class Const {
     public static String BEGINTIME= "2019-08-19 10:40:00";
     //结束时间
     public static String ENDTIME= "2019-08-19 10:50:00";
+    //123等奖
+    public static int FIRSTREWARD= 10;
+    public static int SECONDREWARD= 10;
+    public static int THIRDREWARD= 10;
+
+    public static String REWARD="reward";
 
 
 }

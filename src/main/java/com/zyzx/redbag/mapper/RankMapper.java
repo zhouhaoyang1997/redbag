@@ -1,5 +1,6 @@
 package com.zyzx.redbag.mapper;
 
+import com.zyzx.redbag.entry.Ranking;
 import com.zyzx.redbag.entry.UserClick;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface RankMapper {
-    @Insert("insert into ranking (Userid,completeTime,UserClickid) value(#{userClick.userId},#{userClick.completeTime},#{userClick.userClickId})")
-    public  void insertRanking(UserClick userClick);
+    @Insert("insert into ranking (Userid,completeTime,UserClickid,WinningLevel) value(#{ranking.userId},#{ranking.completeTime},#{ranking.userClickId},#{ranking.winningLevel})")
+    public  void insertRanking(Ranking ranking);
 }

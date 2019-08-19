@@ -36,7 +36,7 @@ public class RankService {
         return new Result<List>("0",Const.SUCCESS,rankingList1);
 
     }
-   public void InsertRanking(UserClick userClick){
-        rankMapper.insertRanking(userClick);
+   public void InsertRanking(Ranking ranking){
+        rankMapper.insertRanking(ranking);
     }
 }
