@@ -1,26 +1,23 @@
 package com.zyzx.redbag.controller;
 
 import com.zyzx.redbag.entry.Ranking;
-import com.zyzx.redbag.entry.UserClick;
-import com.zyzx.redbag.util.JsonUtil;
+import com.zyzx.redbag.service.RankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class RankController {
+
     @Autowired
-    JedisPool jedisPool;
-
-
-    public  String getRank(){
-
-
-
-        return  "";
+    private RankService rankService;
+    @RequestMapping("/getRank")
+    @ResponseBody
+    public  List<Ranking> getRank(){
+    List<Ranking>rankList=rankService.getRank();
+        return rankList;
     }
 }

@@ -3,6 +3,7 @@ package com.zyzx.redbag.rabbitmq;
 
 import com.zyzx.redbag.entry.RedPacket;
 import com.zyzx.redbag.entry.UserClick;
+import com.zyzx.redbag.mapper.PreClickMapper;
 import com.zyzx.redbag.redis.RedisService;
 import com.zyzx.redbag.service.RankService;
 import com.zyzx.redbag.service.RedBagService;
@@ -25,15 +26,16 @@ public class MQReceiver {
     @Autowired
     RankService rankService;
 
+    @Autowired
+    PreClickMapper preClickMapper;
+
+
+
+
     @RabbitListener(queues = MQConfig.REDBAG_TOPIC)
     public void receiveRedBag(String message) {
         redBagService.insertRedBag(message);
     }
-     @RabbitListener(queues = MQConfig.RANK_TOPIC)
-        public void receiveRankList(String message) {
-         UserClick userClick = RedisService.stringToBean(message,UserClick.class);
-            rankService.InsertRanking(userClick);
-        }
 
     @RabbitListener(queues = MQConfig.PRECLICK_TOPIC)
     public void receivePreClick(String message) {

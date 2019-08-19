@@ -7,11 +7,14 @@ import com.zyzx.redbag.mapper.RankMapper;
 import com.zyzx.redbag.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 @Service
 public class RankService {
     @Autowired
