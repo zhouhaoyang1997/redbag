@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface RankMapper {
-    @Insert("insert into ranking (Userid,completeTime,UserClickid) value(#{userId},#{completeTime},#{userClickId})")
+    @Insert("insert into ranking (Userid,completeTime,UserClickid) value(#{userClick.userId},#{userClick.completeTime},#{userClick.userClickId})")
     public  void insertRanking(UserClick userClick);
 }

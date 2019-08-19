@@ -39,9 +39,8 @@ public class MQReceiver {
 
     @RabbitListener(queues = MQConfig.PRECLICK_TOPIC)
     public void receivePreClick(String message) {
-        System.out.println(" topic  queue1 message:" + message);
         UserClick userClick = RedisService.stringToBean(message,UserClick.class);
-
+        preClickMapper.insertPreclick(userClick);
     }
 
 }

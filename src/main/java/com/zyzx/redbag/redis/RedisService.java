@@ -70,7 +70,7 @@ public class RedisService {
         try {
             jedis = jedisPool.getResource();
             String str = beanToString(value);
-            return jedis.lpush(key,str);
+            return jedis.rpush(key,str);
         } finally {
             returnToPool(jedis);
         }

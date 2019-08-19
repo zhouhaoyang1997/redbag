@@ -15,16 +15,19 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    public boolean checkUser(String tel) {
-        User user = userMapper.checkUser(tel);
-        if(user==null){
-            return true;
-        }else {
-            return false;
-        }
+    public User checkUser(String tel) {
+        return userMapper.checkUser(tel);
+
     }
 
     public void insertUser(String tel) {
         userMapper.insertUser(tel);
+    }
+    public void updateUserIsPartake(int userId){
+        userMapper.updateUserIsPartake(userId);
+    }
+    public User checkIsPartake(String tel) {
+        return userMapper.checkIsPartake(tel);
+
     }
 }

@@ -29,6 +29,7 @@ public class PreClickService {
         Jedis jedis=jedisPool.getResource();
 
         jedis.rpush(String.valueOf(userClick.getUserId()), JsonUtil.obj2String(userClick));
+        jedis.close();
         savePreClick(userClick);
         //此处可在插入后判断是否到达指定数目
         return Const.SUCCESS;

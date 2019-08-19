@@ -1,15 +1,21 @@
 package com.zyzx.redbag.controller;
 
 import com.zyzx.redbag.common.Const;
+import com.zyzx.redbag.entry.User;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.rabbitmq.MQConfig;
 import com.zyzx.redbag.rabbitmq.MQSender;
 import com.zyzx.redbag.redis.RedisService;
+import com.zyzx.redbag.service.RankService;
+import com.zyzx.redbag.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author zhy
@@ -21,20 +27,26 @@ public class ClickRedBagController {
     RedisService redisService;
     @Autowired
     MQSender sender;
-    @PostMapping
-    public  String clickRedBag(UserClick userClick, HttpSession session){
+    @Autowired
+    UserService userService;
+    @Autowired
+    RankService rankService;
+    @RequestMapping("/clickRedBag")
+    public  String clickRedBag(UserClick userClick){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS");
+        String data=df.format(new Date());
+        userClick.setCompleteTime(data);
         long len = redisService.getLen(String.valueOf(userClick.getUserId()));
         if(len == Const.PRECLICK){
               long index = redisService.orderAdd(Const.RANKLIST,userClick);
+              sender.send(userClick,MQConfig.PRECLICK_TOPIC);
               if(index<=Const.ALLREDBAGNUM){
+                  userService.updateUserIsPartake(userClick.getUserId());
+                  rankService.InsertRanking(userClick);
                   sender.send(userClick, MQConfig.RANK_TOPIC);
                   return Const.ZHONGJIANG;
               }
-              
-              return Const.FALSE;
-//            if(redisService.getLen(Const.RANKLIST)==Const.CLICKREDBAGNUM&&redisService.getBeanByIndex(Const.RANKLIST,Const.ALLREDBAGNUM,UserClick.class).getUserId()==userClick.getUserId()){
-//            }
-
+              return Const.BUZHONGJIANG;
         }else {
             return Const.ERROR;
         }
