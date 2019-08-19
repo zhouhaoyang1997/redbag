@@ -71,7 +71,7 @@ public class ClickRedBagController {
                       ranking.setWinningLevel(0);
                   }
                   redisService.orderAdd(Const.REWARD,ranking);
-                  sender.send(ranking, MQConfig.RANK_TOPIC);
+                  rankService.InsertRanking(ranking);
                   return new Result("0",Const.SUCCESS);
               }
             return new Result("-1","没有中奖");

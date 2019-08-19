@@ -3,6 +3,7 @@ package com.zyzx.redbag.service;
 import com.zyzx.redbag.common.Const;
 import com.zyzx.redbag.entry.Result;
 import com.zyzx.redbag.entry.UserClick;
+import com.zyzx.redbag.mapper.PreClickMapper;
 import com.zyzx.redbag.rabbitmq.MQConfig;
 import com.zyzx.redbag.rabbitmq.MQSender;
 import com.zyzx.redbag.redis.RedisService;
@@ -23,6 +24,9 @@ public class PreClickService {
     RedisService redisService;
     @Autowired
     MQSender sender;
+
+    @Autowired
+    PreClickMapper mapper;
     public Result preClick(UserClick userClick){
 
         if (userClick==null){
@@ -43,6 +47,8 @@ public class PreClickService {
     }
 
     public void savePreClick(UserClick userClick){
-        sender.send(userClick, MQConfig.PRECLICK_TOPIC);
+
+       /* sender.send(userClick, MQConfig.PRECLICK_TOPIC);*/
+        mapper.insertPreclick(userClick);
     }
 }

@@ -27,13 +27,26 @@ public class RankService {
         Jedis jedis =jedisPool.getResource();
         List<String> strList=jedis.lrange(Const.RANKLIST,0,Const.ALLREDBAGNUM);
         List<Ranking> rankingList1=new ArrayList<Ranking>();
+        if (!strList.isEmpty()){
+            for (String rstr:strList) {
+                rankingList1.add(JsonUtil.string2Obj(rstr, Ranking.class));
+            }
 
-        for (String rstr:strList) {
-            rankingList1.add(JsonUtil.string2Obj(rstr, Ranking.class));
+
+            return new Result<List>("0",Const.SUCCESS,rankingList1);
+        }else {
+            //在redis缓存没有的情况下访问数据库
+            rankingList1=rankMapper.getRank();
+            if (!rankingList1.isEmpty()){
+                return new Result<List>("0",Const.SUCCESS,rankingList1);
+            }else{
+                //数据库没有，报错
+                return new Result<List>("-1",Const.FALSE);
+            }
+
         }
 
 
-        return new Result<List>("0",Const.SUCCESS,rankingList1);
 
     }
    public void InsertRanking(Ranking ranking){

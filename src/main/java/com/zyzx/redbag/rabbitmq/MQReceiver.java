@@ -33,21 +33,21 @@ public class MQReceiver {
 
 
 
-    @RabbitListener(queues = MQConfig.REDBAG_TOPIC)
-    public void receiveRedBag(String message) {
-        redBagService.insertRedBag(message);
-    }
+//    @RabbitListener(queues = MQConfig.REDBAG_TOPIC)
+//    public void receiveRedBag(String message) {
+//        redBagService.insertRedBag(message);
+//    }
+//
+//    @RabbitListener(queues = MQConfig.RANK_TOPIC)
+//    public void receiveRank(String message) {
+//        Ranking ranking = RedisService.stringToBean(message,Ranking.class);
+//        rankService.InsertRanking(ranking);
+//    }
 
-    @RabbitListener(queues = MQConfig.RANK_TOPIC)
-    public void receiveRank(String message) {
-        Ranking ranking = RedisService.stringToBean(message,Ranking.class);
-        rankService.InsertRanking(ranking);
-    }
-
-    @RabbitListener(queues = MQConfig.PRECLICK_TOPIC)
+   /* @RabbitListener(queues = MQConfig.PRECLICK_TOPIC)
     public void receivePreClick(String message) {
         UserClick userClick = RedisService.stringToBean(message,UserClick.class);
         preClickMapper.insertPreclick(userClick);
-    }
+    }*/
 
 }

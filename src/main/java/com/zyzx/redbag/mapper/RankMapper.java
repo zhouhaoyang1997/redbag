@@ -4,6 +4,9 @@ import com.zyzx.redbag.entry.Ranking;
 import com.zyzx.redbag.entry.UserClick;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @author zhy
@@ -13,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface RankMapper {
     @Insert("insert into ranking (Userid,completeTime,UserClickid,WinningLevel) value(#{ranking.userId},#{ranking.completeTime},#{ranking.userClickId},#{ranking.winningLevel})")
     public  void insertRanking(Ranking ranking);
+
+    @Select("SELECT *\n" +
+            "from ranking,`user`\n" +
+            "WHERE ranking.Userid=`user`.Userid")
+    public List<Ranking> getRank();
 }
