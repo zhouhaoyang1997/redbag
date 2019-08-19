@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * @author zhy
  * @create 2019-08-18 14:38
@@ -20,4 +22,7 @@ public interface UserMapper {
     User checkIsPartake(String tel);
     @Update("update user set IsPartake = 1 where Userid = #{userId}")
     void updateUserIsPartake(int userId);
+
+
+
 }
