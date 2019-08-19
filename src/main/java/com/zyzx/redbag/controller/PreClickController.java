@@ -1,5 +1,7 @@
 package com.zyzx.redbag.controller;
 
+import com.zyzx.redbag.common.Const;
+import com.zyzx.redbag.entry.Result;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.service.PreClickService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,9 @@ public class PreClickController {
     private PreClickService preClickService;
 
     @PostMapping ("/preClick")
-    public  String preClick(UserClick userClick){
+    public  Result<String> preClick(UserClick userClick){
 
-    String result=preClickService.preClick(userClick);
+    Result result=preClickService.preClick(userClick);
         return result;
     }
 }

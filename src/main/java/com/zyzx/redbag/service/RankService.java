@@ -2,6 +2,7 @@ package com.zyzx.redbag.service;
 
 import com.zyzx.redbag.common.Const;
 import com.zyzx.redbag.entry.Ranking;
+import com.zyzx.redbag.entry.User;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.mapper.RankMapper;
 import com.zyzx.redbag.util.JsonUtil;
@@ -19,7 +20,7 @@ import java.util.List;
 public class RankService {
     @Autowired
     JedisPool jedisPool;
-    @Autowired
+   @Autowired
     RankMapper rankMapper;
     public List<Ranking> getRank(){
         Jedis jedis =jedisPool.getResource();
@@ -27,13 +28,13 @@ public class RankService {
         List<Ranking> rankingList1=new ArrayList<Ranking>();
 
         for (String rstr:strList) {
-            rankingList1.add(JsonUtil.string2Obj(rstr,Ranking.class));
+            rankingList1.add(JsonUtil.string2Obj(rstr, Ranking.class));
         }
 
-        return  rankingList1;
+        return ;
 
     }
-    public void InsertRanking(UserClick userClick){
+   public void InsertRanking(UserClick userClick){
         rankMapper.insertRanking(userClick);
     }
 }

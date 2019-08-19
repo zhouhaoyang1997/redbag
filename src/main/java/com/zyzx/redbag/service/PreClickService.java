@@ -1,6 +1,7 @@
 package com.zyzx.redbag.service;
 
 import com.zyzx.redbag.common.Const;
+import com.zyzx.redbag.entry.Result;
 import com.zyzx.redbag.entry.UserClick;
 import com.zyzx.redbag.rabbitmq.MQConfig;
 import com.zyzx.redbag.rabbitmq.MQSender;
@@ -22,7 +23,11 @@ public class PreClickService {
     RedisService redisService;
     @Autowired
     MQSender sender;
-    public String preClick(UserClick userClick){
+    public Result preClick(UserClick userClick){
+
+        if (userClick==null){
+            return  new Result("-1","param is null");
+        }
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS");
         String data=df.format(new Date());
         userClick.setCompleteTime(data);
@@ -32,7 +37,8 @@ public class PreClickService {
         jedis.close();
         savePreClick(userClick);
         //此处可在插入后判断是否到达指定数目
-        return Const.SUCCESS;
+
+        return  new Result("0","success");
 
     }
 
