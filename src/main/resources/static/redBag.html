@@ -51,7 +51,7 @@
     // 防止用户查看完排行榜再次进入红包页面
     $(document).ready(function(){
         console.log($.cookie('tel'),'cookie')
-        if($.cookie('tel')===''){
+        if($.cookie('tel')==='' || $.cookie('tel')==null){
             window.location.href = './index.html'
         }
     })
@@ -85,6 +85,7 @@
             console.log(res)
         },(err)=>{
             alert(err)
+            window.location.href = './rank.html'
         })
     },random*1000)
     // 倒计时5s开始游戏
@@ -127,21 +128,6 @@
                 $('.redBagNum span').html(clickNum)
                 // 可以获取到this.id
                 this.remove();
-                // if(clickNum === 8){
-                //     $(".sen h3").html(`您已完成抢8个红包的任务！游戏结束(赶紧点击查看排行榜看自己的排名吧)`)
-                //     // 完成8个之后不让用户点击
-                //     $('.toastWarp').show()
-                //     $(".toast").show();
-                //     // ajax 去处理第八次点击
-                //     console.log('第八次')
-                //     ajax('http://221.181.129.89:20111/hackathon132_21024/clickRedBag',
-                //     {userId: $.cookie('userId'),
-                //     redpacketId:id},type='POST')
-                //     .then((res)=>{
-                //     },(err)=>{
-                //         alert(err)
-                //     })
-                // }else{
                     ajax('http://221.181.129.89:20111/hackathon132_21024/clickRedBag',
                     {userId: $.cookie('userId'),
                     redpacketId:id},type='POST')
@@ -154,6 +140,7 @@
                         }
                     },(err)=>{
                         alert(err)
+                        window.location.href = './rank.html'
                     })
                 // }
             })

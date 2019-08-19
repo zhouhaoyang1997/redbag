@@ -210,10 +210,12 @@ ul.menu .active .list a {
           }
         })
 			}else{
-				alert(res.rtnMsg)
+        alert(res.rtnMsg)
+        window.location.href = './index.html'
 			}
 		},(err)=>{
 			alert(res.rtnMsg)
+      window.location.href = './index.html'
 		})
     // var no1 = document.getElementById('no1')
     // $('#no1').append("<li> <a href='javascript:;' > Item 2-1 </a></li>")
