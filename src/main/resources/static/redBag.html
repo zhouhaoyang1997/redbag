@@ -1,0 +1,166 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>红包雨</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/money.css" />
+<script>
+    (function(){
+        var b="orientationchange" in window ?"orientationchange":"resize";
+
+        var d=function(){
+            var h=document.documentElement.clientWidth;
+            if(!h){return}
+            var g=(h/320)*20;
+        // console.log(g)
+            document.documentElement.style.fontSize=(g>40?40:g)+"px";
+        }
+        if(!document.addEventListener){return}
+        window.addEventListener(b,d,false);
+        d();
+    })()
+</script>
+</head>
+<body>
+<div class="money-warpper">
+    <!-- <div class="money-gift" style="rsight:0;"><img src="images/petal1.png" alt="" /></div> -->
+    <div class="redBagNum" style="z-index: 11 ;position: absolute;left: 30%;bottom: 5%;">已抢到<span>0</span>个红包</div>
+</div>
+<div class="toastWarp" style="width: 100%;height:100%;position:absolute;display:none">
+    <div class="toast" >
+        <div class="sen">
+            <img  src="images/gx.png">
+            <h3></h3>
+            <a class="toast-btn">查看排行榜</a>
+        </div>
+    </div>
+</div>
+<div id="zhezhao" style="display: block;width: 100%;height: 100%;background: grey;z-index: 1000;opacity:0.4;">
+    <p id="font" style="font-size: 36px;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%)"></p>
+</div>
+</body>
+<script type="text/javascript" src="./js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="./js/ajax.js"></script>
+<script type="text/javascript" src="./js/jquery.cookie.js" ></script>
+<script>
+    console.log($.cookie('username'))
+    // 倒计时
+    var countDown = function(times){
+        if(!times||isNaN(parseInt(times)))return;
+        var args = arguments;
+        var self = this;
+        $("#font").html(times)
+        setTimeout(function(){args.callee.call(self,--times)},1000)
+        if(times === 1){
+           setTimeout(()=>{
+            $("#font").html('go!go!go!');
+            setTimeout(()=>{
+              document.getElementById('zhezhao').style.display = 'none'
+            },500)
+           },500)
+        }
+    }
+    countDown(10);
+    // 在7s内随机数发送ajax 并发量错开 减少服务器压力
+    // ajax('http://wh.xhd.cn/api/content/list.jspx',{channelIds: 1}).then(res=>{
+    //     console.log(res)
+    // })
+    let random = (Math.random()*7).toFixed(3)
+    setTimeout(()=>{
+    //     ajax('http://wh.xhd.cn/api/content/list.jspx',{channelIds: 1}).then(res=>{
+    //     console.log(res)
+    // })
+    },random*1000)
+    // 倒计时10s开始游戏
+    setTimeout((function(){
+        var win=parseInt($(".money-warpper").width()-60);
+        var height=$(document).height();
+        var toast=parseInt($(".toast").height())/2
+        //红包数量
+        var num=0;
+        //点击数量
+        var clickNum = 0;
+        $(".money-warpper").height(height);
+        $(".toast").css("margin-top","-"+toast+"px");
+        // 下红包
+        var add=function(id){
+            var wh=parseInt(Math.random()*(113-70)+60);
+            var rot=parseInt(Math.random()*100+45)+"deg";
+            var left=parseInt(Math.random()*win);
+            var imgNum=parseInt(Math.random()*(10-1)+1)
+            num++;
+            // console.log(num)
+            $(".money-warpper").append("<div id="+id+" class='money-gift"+num+"'><img src='images/redBag"+imgNum+".png' /></li>");
+            $(".money-gift"+num).css({
+                "left":left,
+                "top":"-100px"
+            })
+            $(".money-gift"+num).find("img").css({
+                "width":wh+"px",
+                "transform":"rotate("+rot+")",
+                "-webkit-transform":"rotate("+rot+")",
+                "-moz-transform":"rotate("+rot+")",
+                "-ms-transform":"rotate("+rot+")",
+                "-o-transform":"rotate("+rot+")"
+            })
+            $(".money-gift"+num).animate({'top':height},5000,function(){
+                this.remove();
+            })
+            $(".money-gift"+num).click(function(){
+                clickNum++
+                $('.redBagNum span').html(clickNum)
+                // 可以获取到this.id
+                this.remove();
+                if(clickNum === 8){
+                    $(".sen h3").html(`您已完成抢8个红包的任务！游戏结束`)
+                    // 完成8个之后不让用户点击
+                    $('.toastWarp').show()
+                    $(".toast").show();
+                    // ajax 去处理第八次点击
+                    console.log('第八次')
+                    // ajax(url,parms,type='POST').then((res)=>{
+                    // 	console.log(res)
+                    // },(err)=>{})
+                }else{
+                    console.log('前七次')
+                    // ajax 处理前7次点击
+                    // ajax(url,parms,type='POST').then((res)=>{
+                    // 	console.log(res)
+                    // },(err)=>{})
+                }
+            })
+        }
+        // 根据返回的红包id数量
+        let arr = new Array(30)
+        let i= 0;
+        let timer = setInterval(()=>{
+            add(arr[i])
+            i++
+            if(i===50){
+                console.log('清除time')
+                clearInterval(timer)
+                var lunxun = setInterval(function(){
+                    if($('.money-warpper').children('div').length==1&& clickNum<8){
+                        $(".sen h3").html(`很遗憾您没有完成抢完8个红包的任务,下次活动继续努力哦`)
+                        // 完成8个之后不让用户点击
+                        $('.toastWarp').show()
+                        $(".toast").show(); 
+                        clearInterval(lunxun)
+                    }
+                },0)
+            }
+        },200)
+        // 完成游戏点击确定事件
+        $(".toast-btn").click(function(){
+            $(".toast").hide();
+            window.location.href = './zhongjiang.html'
+            // clearTimeout(clear,500);    
+        })
+    }),10000)
+</script>
+</html>

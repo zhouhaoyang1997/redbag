@@ -24,6 +24,10 @@ public class MQConfig {
     public Queue redBagTopic() {
         return new Queue(REDBAG_TOPIC, true);
     }
+    @Bean
+    public Queue rankTopic() {
+        return new Queue(RANK_TOPIC, true);
+    }
 
 //
 //    @Bean
