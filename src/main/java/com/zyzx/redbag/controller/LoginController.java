@@ -31,7 +31,7 @@ public class LoginController {
         if(nowtime.before(begintime)){
             return "活动未开始";
         }else if(nowtime.after(endtime)){
-            return "活动未开始";
+            return "活动已结束";
         }
         if (ValidatorUtil.isMobile(tel)){
             User user = userService.checkIsPartake(tel);
