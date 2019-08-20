@@ -95,17 +95,15 @@ public class RedisService {
 //    /**
 //     * 判断key是否存在
 //     */
-//    public <T> boolean exists(KeyPrefix prefix, String key) {
-//        Jedis jedis = null;
-//        try {
-//            jedis = jedisPool.getResource();
-//            //生成真正的key
-//            String realKey = prefix.getPrefix() + key;
-//            return jedis.exists(realKey);
-//        } finally {
-//            returnToPool(jedis);
-//        }
-//    }
+    public <T> boolean exists(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.exists(key);
+        } finally {
+            returnToPool(jedis);
+        }
+    }
 //
 //    /**
 //     * 增加值

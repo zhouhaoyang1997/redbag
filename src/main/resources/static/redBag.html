@@ -77,7 +77,7 @@
     // 在4s内随机数发送ajax 并发量错开 减少服务器压力
     let random = (Math.random()*4).toFixed(3)
     setTimeout(()=>{
-        ajax('http://221.181.129.89:20111/hackathon132_21024/getRedBagList').then(res=>{
+        ajax('getRedBagList').then(res=>{
             if(res.rtnCode === '0'){
             // 根据返回的红包id数量
                 redBagId = res.data
@@ -128,7 +128,7 @@
                 $('.redBagNum span').html(clickNum)
                 // 可以获取到this.id
                 this.remove();
-                    ajax('http://221.181.129.89:20111/hackathon132_21024/clickRedBag',
+                    ajax('clickRedBag',
                     {userId: $.cookie('userId'),
                     redpacketId:id},type='POST')
                     .then((res)=>{

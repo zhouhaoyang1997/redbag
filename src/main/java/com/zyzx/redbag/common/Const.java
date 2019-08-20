@@ -36,5 +36,6 @@ public class Const {
 
     public static String REWARD="reward";
     public static boolean ISOVER= false;
+    public static boolean ISOVER_TEST= false;
 
 }

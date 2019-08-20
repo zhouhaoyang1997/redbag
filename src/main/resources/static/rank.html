@@ -196,7 +196,7 @@ ul.menu .active .list a {
     for (i = 0; i < list.length; i++) {
         list[i].addEventListener('click', accordion);
     }
-    ajax('http://221.181.129.89:20111/hackathon132_21024/getRank',type='POST').then((res)=>{
+    ajax('getRank',type='POST').then((res)=>{
 			if(res.rtnCode === '0'){
         // res.data.map((data)=>{console.log(data.winningLevel)})
         res.data.map((data)=>{

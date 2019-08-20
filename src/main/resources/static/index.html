@@ -32,7 +32,7 @@ $('#login-button').click(function (event) {
 	// 判断手机号码是否为空
 	if(tel.length>0){
 		// ajax请求
-		ajax('http://221.181.129.89:20111/hackathon132_21024/login',{tel:tel},type='POST').then((res)=>{
+		ajax('login',{tel:tel},type='POST').then((res)=>{
 			if(res.rtnCode === '0'){
 				$.cookie('tel',tel)
 				$.cookie('userId',res.data.userId)
